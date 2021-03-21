@@ -1,11 +1,37 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react';
+import SandwichDeliverrServices from './SandwichDeliverServices'
 
-export default class NewOrder extends Component {
-    render() {
-        return (
-            <div>
-                <h3>This is ME</h3>
-            </div>
-        )
+const SandwichDeliverr = () => {
+    const [inventory, setInventory] = useState([]);
+    const [menu, setMenu] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(()=> {
+        console.log('mounted:');
+        getInventory();        
+    }, [loading]);
+    
+    const getInventory = () => {
+        SandwichDeliverrServices.getInventory().then( inventoryDetails => {
+            setInventory(inventoryDetails.data.inventory);
+            setMenu(inventoryDetails.data.menu);
+            setLoading(false);
+        });
     }
+
+    return (
+        <div className="flex-container">            
+            {/* <div>inventory: {inventory}</div> */}
+            <>
+                {menu.map( menuItem => <>
+                    <div key={menuItem.name} className="flex-item"> 
+                        <span>{menuItem.name}</span> - <span>{menuItem.price}</span>
+                    </div>
+                    </>
+                )}
+            </>
+        </div>
+    );
 }
+ 
+export default SandwichDeliverr;

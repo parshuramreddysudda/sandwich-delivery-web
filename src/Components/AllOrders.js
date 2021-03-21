@@ -1,27 +1,15 @@
 import React, { Component } from 'react'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
-import './AllOrders.css';
 
-import { Redirect } from 'react-router';
-import Routes from './Components/Routes';
+import './AllOrders.css';
+import { Link } from 'react-router-dom';
 
 // ... your class implementation
 
+var cart= { id:1,value:"Asd"};
+
 export default class AllOrders extends Component {
 
-    constructor(props) {
-        super(props)
-
-    }
-    redirectToOrderPage = () => {
-        console.log("Called");
-        return <Redirect push to="/NewOrders" />;
-    }
+  
 
     render() {
         return (
@@ -29,15 +17,15 @@ export default class AllOrders extends Component {
                 <h1 className="mainHeading">All New Sandwich Delivery Services</h1>
 
                 <div className="buttonDiv">
-                    <Routes>
-                        <Link to="/asd">
+                        <Link 
+                        to="/NewOrder"
+                        info={cart}
+                        >
                             <button className="orderButton">
                                 Create Order
                          </button>
                         </Link>
-                    </Routes>
                 </div>
-
                 <section>
                     <div className="tbl-header">
                         <table cellPadding="0" cellSpacing="0" border="0">
