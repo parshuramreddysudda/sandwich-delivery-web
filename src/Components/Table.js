@@ -12,10 +12,9 @@ export default class componentName extends Component {
                 <div className="tbl-header">
                     <table cellPadding="0" cellSpacing="0" border="0">
                         <thead>
-                            {this.props.header}
                             <tr>
                                 {this.props.headings.map((item) => (
-                                    <th>{item.name}</th>
+                                    <th>{item}</th>
                                 ))
                                 }
 
@@ -28,10 +27,12 @@ export default class componentName extends Component {
                         <tbody>
 
                             {this.props.tableData.map((item) => (
-                                <tr>
-                                    {item.map((data) => (
-                                        <td>data</td>
-                                    ))}
+                                
+                                <tr key={item}>
+                                   <td>{item.name}</td>
+                                   <td>{item.quantity}</td>
+                                   <td>{item.price}</td>
+                                   <td>{item.total}</td>
                                 </tr>
                             ))}
                         </tbody>

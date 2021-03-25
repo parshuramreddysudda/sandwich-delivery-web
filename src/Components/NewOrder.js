@@ -23,29 +23,39 @@ const SandwichDeliver = () => {
     const headings = [
         "Item name",
         "Quantity",
+        "Price",
         "Total"
-    ]
-    const cart=[
-        [{name:"name"}]
+    ];
+    function getItemName(name) {
+        console.log(name)
+        
+    }
 
+    const cart = [
+        { name: "asd", quantity: 3, price: 45, total: 57 },
+        { name: "asad", quantity: 3, price: 45, total: 57 }
     ]
 
     return (
-        <div className="flex-container">
+        <div >
             {/* <div>inventory: {inventory}</div> */}
             <>
-                {menu.map(menuItem => <>
-                    <div key={menuItem.name} className="flex-item">
-                        <span>{menuItem.name}</span> - <span>{menuItem.price}</span>
-                    </div>
-                </>
-                )}
-
-                <Table
-                    header="Table Heading"
-                    tableData={menu}
-                    headings={headings}
-                />
+                <div className="flex-container">
+                    {menu.map(menuItem => (
+                        <button key={menuItem.name} onClick={() => getItemName(menuItem.name)}>
+                            <span>{menuItem.name}</span> - <span>{menuItem.price}</span>
+                        </button>
+                    ))}
+                </div>
+                <div className="">
+                </div>
+                <h2 className="mainHeading">Create your Order</h2>
+                <div className="table">
+                    <Table
+                        tableData={cart}
+                        headings={headings}
+                    />
+                </div>
 
             </>
         </div>
