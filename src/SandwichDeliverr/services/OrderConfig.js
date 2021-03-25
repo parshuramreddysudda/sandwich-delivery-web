@@ -1,4 +1,4 @@
-{
+const OrderConfig = {
     "inventory": {
       "bread": 40,
       "lettuce": 20,
@@ -39,17 +39,6 @@
           "turkey": 1
         }
       }
-      , {
-        "name": "Pizza",
-        "price": 14.99,
-        "ingredients": {
-          "bread": 22,
-          "lettuce": 1.2,
-          "tomato": 1.8,
-          "cheese": 2.1,
-          "turkey": 1.6
-        }
-      }
     ]
   }
-  
+  export default OrderConfig;

@@ -1,0 +1,43 @@
+.new-order-link {
+	margin-left: 20rem;
+	align-items: center;
+	justify-content: center;
+}
+.dynamic-table {
+	display: flex;	
+	width: 100%;
+	
+	align-items: center;
+	justify-content: center;
+}
+.dynamic-table table {
+	margin: 1rem;
+	padding: 1rem;
+	border: solid 0.2rem gray;
+  }
+  .dynamic-table thead {
+	background-color: gray;
+   }
+   .dynamic-table tbody {
+	height:20rem;
+	overflow-x:auto;
+	margin-top: 0px;
+	border: 1px solid gray;
+  }
+  .dynamic-table thead th {
+	padding: 20px 15px;
+	text-align: left;
+	font-weight: 500;
+	font-size: 2rem;
+	color: black;
+	text-transform: uppercase;
+  }
+  .dynamic-table tbody td{
+	padding: 20px 15px;
+	text-align: left;
+	vertical-align:middle;
+	font-weight: 300;
+	font-size: 2rem;
+	color:black;
+	border-bottom: solid 1px gray;
+  }
