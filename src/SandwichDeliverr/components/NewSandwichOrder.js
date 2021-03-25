@@ -8,17 +8,19 @@ import { useHistory } from 'react-router-dom';
 
 const NewSandwichOrder = () => {
     const [inventory, setInventory] = useState([]);
-    const [input,setInput]=useState("Order Name");
+    const [input, setInput] = useState("Order Name");
     const [menu, setMenu] = useState([]);
     const [loading, setLoading] = useState(true);
     const [orders, addOrder] = useState([]);
     const [tax, updateTax] = useState(0);
     const [orderTotal, updateOrderTotal] = useState(0);
-    const [inputError,setInputError]=useState(false);
+    const [inputError, setInputError] = useState(false);
     let history = useHistory();
     useEffect(() => {
         // console.log('mounted:');
         getInventory();
+        const value=input+(history.location.state?history.location.state.length:1);
+        setInput(value);
     }, [loading]);
 
     const getInventory = () => {
@@ -37,11 +39,11 @@ const NewSandwichOrder = () => {
         updateTax(parseInt(total * 10) / 100);
         updateOrderTotal(parseInt(total * 110) / 100);
     }
-    const checkForm=()=>{
-        if(input.length>2)
+    const checkForm = () => {
+        if (input.length > 2)
             createOrder()
         else
-        setInputError(true)
+            setInputError(true)
     }
     const createOrder = () => {
 
@@ -54,16 +56,19 @@ const NewSandwichOrder = () => {
         if (quantityList.length > 0) {
             quantity = quantityList.reduce((sum, q) => sum + q);
         }
+        let historyLocation=history.location;
         let newOrder = [{
+            'id': historyLocation.state ? historyLocation.state.length + 1 : 1,
             'item': input,
             'price': price,
             'quantity': quantity,
+            'status':"pending",
             'total': orderTotal
         }];
         let oldOrders = [];
-        if (history.location.state) {
-            console.log("History files", history.location.state)
-            oldOrders = [...history.location.state];
+        if (historyLocation.state) {
+            console.log("History files", historyLocation.state)
+            oldOrders = [...historyLocation.state];
             oldOrders.push(...newOrder);
         }
         else {
@@ -74,10 +79,10 @@ const NewSandwichOrder = () => {
         history.push({ pathname: '/', state: oldOrders });
     }
 
-    const validateInput=(e)=>{
-                setInput(e.target.value)    
+    const validateInput = (e) => {
+        setInput(e.target.value)
     }
-    let columns = SandwichOrdersHelper.getAllOrderColumns();
+    let columns = SandwichOrdersHelper.getAllOrderColumnsForNewOrder();
     return (
         <>
             <div className="flex-layout">
@@ -120,7 +125,7 @@ const NewSandwichOrder = () => {
                 <button className="create-order-button" onClick={() => checkForm()}>
                     Create Order
             </button>
-            {inputError&&<h3>Please Input Order Name</h3>}
+                {inputError && <h3>Please Input Order Name</h3>}
             </div>
         </>
     );

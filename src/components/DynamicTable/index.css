@@ -26,7 +26,7 @@
   }
   .dynamic-table thead th {
 	padding: 20px 15px;
-	text-align: left;
+	text-align: center;
 	font-weight: 500;
 	font-size: 2rem;
 	color: black;
@@ -34,7 +34,7 @@
   }
   .dynamic-table tbody td{
 	padding: 20px 15px;
-	text-align: left;
+	text-align: center;
 	vertical-align:middle;
 	font-weight: 300;
 	font-size: 2rem;
