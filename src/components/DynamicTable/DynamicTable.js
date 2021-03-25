@@ -34,7 +34,7 @@ const DynamicTable = ({ columns, data }) => {
                 <p>No Data Available</p>
             )}
 
-            {data.length==0&&(<p>No Order this Time</p>)}
+            {data&&data.length==0&&(<p>No Order this Time</p>)}
         </div>
     );
 }
