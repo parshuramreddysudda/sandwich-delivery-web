@@ -1,37 +1,32 @@
-import React
-, { useEffect, useState }
-    from 'react';
+import React, { useEffect, useState } from 'react';
 import OrderConfig from '../services/OrderConfig';
 import SandwichOrdersHelper from '../services/SandwichOrdersHelper';
 import DynamicTable from '../../components/DynamicTable/DynamicTable';
 import { useHistory } from 'react-router-dom';
+import Input from '../../components/Input/Input';
+import InputHelper from '../../components/Input/InputHelper';
+import SandwichElementConfig from './SanwichElementConfig';
 
 const NewSandwichOrder = () => {
-    const [inventory, setInventory] = useState([]);
-    const [input, setInput] = useState("Order Name");
     const [menu, setMenu] = useState([]);
     const [loading, setLoading] = useState(true);
     const [orders, addOrder] = useState([]);
     const [tax, updateTax] = useState(0);
     const [orderTotal, updateOrderTotal] = useState(0);
-    const [inputError, setInputError] = useState(false);
+    const [config, setConfig] = useState(SandwichElementConfig);
     let history = useHistory();
     useEffect(() => {
-        // console.log('mounted:');
         getInventory();
-        const value=input+(history.location.state?history.location.state.length:1);
-        setInput(value);
+        const value="New Order "+(history.location.state?history.location.state.length + 1: 1);
+        onChangeHandler('newOrderName', value);
     }, [loading]);
 
     const getInventory = () => {
-        setInventory(OrderConfig.inventory);
         setMenu(SandwichOrdersHelper.formatAllOrder(OrderConfig.menu));
         setLoading(false);
     }
     const addSandwich = sandwichOrder => {
-        console.log(sandwichOrder)
         let newOrders = SandwichOrdersHelper.addOrder(orders, sandwichOrder);
-        console.log("New Orders are",newOrders)
         addOrder(newOrders);
         let totals = newOrders.map(order => order.total);
         let total = 0;
@@ -41,12 +36,7 @@ const NewSandwichOrder = () => {
         updateTax(parseInt(total * 10) / 100);
         updateOrderTotal(parseInt(total * 110) / 100);
     }
-    const checkForm = () => {
-        if (input.length > 2)
-            createOrder()
-        else
-            setInputError(true)
-    }
+
     const createOrder = () => {
 
         let quantityList = orders.map(order => order.quantity);
@@ -61,7 +51,7 @@ const NewSandwichOrder = () => {
         let historyLocation=history.location;
         let newOrder = [{
             'id': historyLocation.state ? historyLocation.state.length + 1 : 1,
-            'item': input,
+            'item': config.newOrderName.value,
             'price': price,
             'quantity': quantity,
             'status':"pending",
@@ -77,12 +67,19 @@ const NewSandwichOrder = () => {
             oldOrders = [...newOrder];
         }
         console.log("Orders are ", oldOrders)
-        setInputError(false);
         history.push({ pathname: '/', state: oldOrders });
     }
 
-    const validateInput = (e) => {
-        setInput(e.target.value)
+    const onChangeHandler = (id, value) => {        
+        let updatedConfig = {...config};
+        if(id){            
+            let element = updatedConfig[id];
+            element.value = value;
+            element.valid = InputHelper.validate(element);
+            console.log('element: ',element);
+            updatedConfig[id] = element;
+            setConfig({...updatedConfig});
+        }
     }
     let columns = SandwichOrdersHelper.getAllOrderColumnsForNewOrder();
     return (
@@ -103,31 +100,31 @@ const NewSandwichOrder = () => {
                 </div>
             </div>
             <div>
+                <Input 
+                    config={config.newOrderName}
+                    onChangeHandler={(id, value)=>onChangeHandler(id, value)}
+                />
+                <button 
+                    className="create-order-button" 
+                    disabled={!orders.length || !config.newOrderName.valid}
+                    onClick={createOrder}>
+                    Create Order
+                </button>
+                
                 <DynamicTable
                     columns={columns}
                     data={orders}
+                    noDataAvailableText="Please click on a Sandwich from the above list"
                 />
-                <div >
-                    <p>Enter the name</p>
-
-                    <input onChange={validateInput} value={input} />
+                
+                <div className="tax-total">
+                    {orders && orders.length > 0 && (
+                        <>
+                        <span>Tax 10% - {tax}</span>
+                        <span>Total - {orderTotal}</span>
+                        </>
+                    )}
                 </div>
-                {/* <ul>
-                {
-                currenOrders.map( (currentOrder, index) => (
-                    <li key={index}>{currentOrder.name} - {currentOrder.price}</li>
-                ))}
-            </ul> */}
-                {orders && orders.length > 0 && (
-                    <ul>
-                        <li>Tax 10% - {tax}</li>
-                        <li>Total - {orderTotal}</li>
-                    </ul>
-                )}
-                <button className="create-order-button" onClick={() => checkForm()}>
-                    Create Order
-            </button>
-                {inputError && <h3>Please Input Order Name</h3>}
             </div>
         </>
     );

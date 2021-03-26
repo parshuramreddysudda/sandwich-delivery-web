@@ -12,8 +12,11 @@ const AllSandwichOrders = () => {
     const [completeOrders, setCompleteOrders] = useState(false);
     const [allOrder, setAllOrder] = useState(true);
     const [editedOrders, setEditedOrders] = useState();
+    /* 
+        I faced an issue updating child layout and so used forceUpdate using an online hack 
+        https://stackoverflow.com/questions/53215285/how-can-i-force-a-component-to-re-render-with-hooks-in-react/58606536#58606536
+    */ 
     const [_, forceUpdate] = useReducer((x) => x + 1, 0);
-    // const [loading, setLoading] = useState(false);
     let history = useHistory();
     let location = history.location;
     useLayoutEffect(() => {
@@ -27,11 +30,22 @@ const AllSandwichOrders = () => {
         setLoading(false);
     }, [location.state]);
 
-    const checkout = (id) => {
+    // const checkout = (id) => {
+    //     forceUpdate()
+    //     orders[id].status = 'Checked Out';
+    //     setOrders(orders)
+    // }
+    const checkout = (id) => {        
         forceUpdate()
-        orders[id].status = 'Checked Out';
-        setOrders(orders)
+        if (editedOrders){
+            editedOrders[id].status = 'Checked Out';
+        }            
+        else {
+            orders[id].status = 'Checked Out';
+        }            
+        setOrders(orders)        
     }
+
     const changeOrder = (name) => {
         if (name === 'Active') {
             setActiveOrders(true)
@@ -66,7 +80,8 @@ const AllSandwichOrders = () => {
         <>
             <button className="new-order-link" onClick={() => newOrder()}> New Order {location.state ? location.state.length + 1 : 1}</button>
             <p>
-                <span>Orders Length: {orders && orders.length}</span>
+                {/* Debugging Purpose */}
+                {/* <span>Orders Length: {editedOrders? editedOrders.length:orders.length}</span> */}
             </p>
             <input checked={allOrder} onClick={() => changeOrder('All')} type="radio" /> All Orders
             <input checked={activeOrders} onClick={() => changeOrder('Active')} type="radio" /> Active Orders
@@ -75,6 +90,7 @@ const AllSandwichOrders = () => {
                 columns={columns}
                 data={editedOrders ? editedOrders : orders}
                 checkout={checkout}
+                noDataAvailableText="Please Create an Order"
             />
             {loading && (
                 <Loader />

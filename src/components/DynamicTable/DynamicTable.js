@@ -1,9 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 
-const DynamicTable = ({ columns, data, checkout }) => {
-    useLayoutEffect(() => {
-
-    }, [data]);
+const DynamicTable = ({ columns, data, noDataAvailableText, checkout }) => {
     return (
         <div className="dynamic-table">
             {data && data.length > 0 && Array.isArray(data) && (
@@ -33,10 +30,12 @@ const DynamicTable = ({ columns, data, checkout }) => {
             )}
 
             {(!data || !Array.isArray(data)) && (
-                <p>No Data Available</p>
+                <p>Invalid Data format</p>
             )}
 
-            {data && data.length === 0 && (<p>No Order this Time</p>)}
+            {data && data.length === 0 && noDataAvailableText && (<p>{noDataAvailableText}</p>)}
+            {data && data.length === 0 && !noDataAvailableText && (<p>No Table Data Available</p>)}
+
         </div>
     );
 }

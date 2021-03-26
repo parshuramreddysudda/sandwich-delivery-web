@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import img from '../LoadingBar/giphy.webp';
 import '../LoadingBar/index.css';
 
-export default class componentName extends Component {
-  render() {
+const LoadingBar = () => {
+
     return (
-      <>
-        <div className="loader">
-            <img src={img}/>
-        </div>
-      </>
-    )
-  }
+      <div className="loader">
+        <img src={img}/>
+      </div>
+    );
 }
+ 
+export default LoadingBar;
