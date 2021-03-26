@@ -93,7 +93,7 @@ const NewSandwichOrder = () => {
                             <button className="new-sandwich-order-button"
                                 onClick={() => addSandwich(menuItem)}
                             >
-                                <span>{menuItem.item} - {menuItem.price}</span>
+                              {menuItem.item} - {menuItem.price}
                             </button>
 
                         </div>
