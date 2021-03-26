@@ -56,8 +56,9 @@ h2 {
   border: 0.3rem black solid;
 }
 
-.new-order-link {
+button {
   padding: 10px;
+  text-transform: capitalize;
 }
 
 header {
