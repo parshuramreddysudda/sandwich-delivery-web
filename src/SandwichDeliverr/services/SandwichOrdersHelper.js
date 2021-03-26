@@ -65,7 +65,7 @@ function formatAllOrder(orders) {
     let formattedOrders = orders.map(order => (
         {
             item: order.name,
-            price: order.price,
+            price: order.price?order.price:0,
             quantity: 0,
             total: 0,
         }));
