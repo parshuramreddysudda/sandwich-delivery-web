@@ -17,7 +17,7 @@ const NewSandwichOrder = () => {
     let history = useHistory();
     useEffect(() => {
         getInventory();
-        const value="New Order "+(history.location.state?history.location.state.length + 1: 1);
+        const value = "New Order " + (history.location.state ? history.location.state.length + 1 : 1);
         onChangeHandler('newOrderName', value);
     }, [loading]);
 
@@ -48,13 +48,13 @@ const NewSandwichOrder = () => {
         if (quantityList.length > 0) {
             quantity = quantityList.reduce((sum, q) => sum + q);
         }
-        let historyLocation=history.location;
+        let historyLocation = history.location;
         let newOrder = [{
             'id': historyLocation.state ? historyLocation.state.length + 1 : 1,
             'item': config.newOrderName.value,
             'price': price,
             'quantity': quantity,
-            'status':"pending",
+            'status': "pending",
             'total': orderTotal
         }];
         let oldOrders = [];
@@ -70,20 +70,22 @@ const NewSandwichOrder = () => {
         history.push({ pathname: '/', state: oldOrders });
     }
 
-    const onChangeHandler = (id, value) => {        
-        let updatedConfig = {...config};
-        if(id){            
+    const onChangeHandler = (id, value) => {
+        let updatedConfig = { ...config };
+        if (id) {
             let element = updatedConfig[id];
             element.value = value;
             element.valid = InputHelper.validate(element);
-            console.log('element: ',element);
+            console.log('element: ', element);
             updatedConfig[id] = element;
-            setConfig({...updatedConfig});
+            setConfig({ ...updatedConfig });
         }
     }
     let columns = SandwichOrdersHelper.getAllOrderColumnsForNewOrder();
     return (
         <>
+            <header>New orders Page</header>
+
             <div className="flex-layout">
                 <div className="flex-container">
                     {menu.map(menuItem => <>
@@ -99,29 +101,33 @@ const NewSandwichOrder = () => {
                     )}
                 </div>
             </div>
-            <div>
-                <Input 
-                    config={config.newOrderName}
-                    onChangeHandler={(id, value)=>onChangeHandler(id, value)}
-                />
-                <button 
-                    className="create-order-button" 
+            <div className="flex-order-div">
+                <div className="firstInput">
+                    <Input
+                        config={config.newOrderName}
+                        onChangeHandler={(id, value) => onChangeHandler(id, value)}
+                    />
+                </div>
+                <div> <button
+                    className="create-order-button"
                     disabled={!orders.length || !config.newOrderName.valid}
                     onClick={createOrder}>
                     Create Order
-                </button>
-                
+                </button></div>
+            </div>
+            <div>
+
                 <DynamicTable
                     columns={columns}
                     data={orders}
                     noDataAvailableText="Please click on a Sandwich from the above list"
                 />
-                
+
                 <div className="tax-total">
                     {orders && orders.length > 0 && (
                         <>
-                        <span>Tax 10% - {tax}</span>
-                        <span>Total - {orderTotal}</span>
+                            <span>Tax 10% - {tax}</span> 
+                            <span>Total - {orderTotal}</span>
                         </>
                     )}
                 </div>

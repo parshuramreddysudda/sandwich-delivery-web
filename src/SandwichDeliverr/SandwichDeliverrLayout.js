@@ -17,7 +17,7 @@ const SandwichDeliverrLayout = () => {
             <Switch>
                 <Route exact path="/" component={AllSandwichOrders} />
                 <Route exact path="/neworder" component={NewSandwichOrder} />
-                <Redirect path="/404" to="/404" component={PageNotFound}/>
+                <Redirect path="/" to="/404" component={PageNotFound}/>
             </Switch>
         </BrowserRouter>
     );

@@ -3,7 +3,7 @@ import React, { useLayoutEffect } from 'react';
 const DynamicTable = ({ columns, data, noDataAvailableText, checkout }) => {
     return (
         <div className="dynamic-table">
-            {data && data.length > 0 && Array.isArray(data) && (
+            {data && Array.isArray(data) && (
                 <table cellPadding="0" cellSpacing="0" border="0">
                     <thead>
                         <tr>
@@ -12,19 +12,19 @@ const DynamicTable = ({ columns, data, noDataAvailableText, checkout }) => {
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
-
+                    <tbody style={{ display: data.length > 0 ? 'contents' : 'block' }}>
                         {data.map((row, rowIndex) => (
                             <tr key={rowIndex}>
                                 {columns.map((column, colIndex) => (
 
-                                    <td key={rowIndex * colIndex + colIndex} onClick={() => column.actionHandler? checkout(rowIndex) : ''}>
-                                        { column.actionHandler&&row[column.name]===column.actionValue?<button> {row[column.name]}</button>:row[column.name]}
+                                    <td key={rowIndex * colIndex + colIndex} onClick={() => column.actionHandler ? checkout(rowIndex) : ''}>
+                                        { column.actionHandler && row[column.name] === column.actionValue ? <button> {row[column.name]}</button> : row[column.name]}
                                     </td>
                                 )
                                 )}
                             </tr>
                         ))}
+
                     </tbody>
                 </table>
             )}
@@ -32,7 +32,6 @@ const DynamicTable = ({ columns, data, noDataAvailableText, checkout }) => {
             {(!data || !Array.isArray(data)) && (
                 <p>Invalid Data format</p>
             )}
-
             {data && data.length === 0 && noDataAvailableText && (<p>{noDataAvailableText}</p>)}
             {data && data.length === 0 && !noDataAvailableText && (<p>No Table Data Available</p>)}
 
