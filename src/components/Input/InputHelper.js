@@ -4,7 +4,6 @@ const InputHelper = {
 }
 
 function validate(element) {
-    console.log(element)
     if(element.validations.isRequired) {
         return element.value ? true : false;
     }
