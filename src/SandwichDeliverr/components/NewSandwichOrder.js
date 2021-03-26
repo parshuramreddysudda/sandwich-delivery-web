@@ -29,7 +29,9 @@ const NewSandwichOrder = () => {
         setLoading(false);
     }
     const addSandwich = sandwichOrder => {
+        console.log(sandwichOrder)
         let newOrders = SandwichOrdersHelper.addOrder(orders, sandwichOrder);
+        console.log("New Orders are",newOrders)
         addOrder(newOrders);
         let totals = newOrders.map(order => order.total);
         let total = 0;
