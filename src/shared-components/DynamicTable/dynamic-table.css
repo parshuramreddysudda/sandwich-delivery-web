@@ -1,0 +1,42 @@
+
+.dynamic-table {
+	display: flex;	
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.dynamic-table p{
+	margin: -4em;;
+}
+.dynamic-table table {
+	margin: 1rem;
+	padding: 1rem;
+	border: solid 0.2rem gray;
+  }
+  .dynamic-table thead {
+	background-color: gray;
+   }
+   .dynamic-table tbody {
+	min-height:4rem;
+	display: contents;
+	overflow-x:auto;
+	margin-top: 0px;
+  }
+  .dynamic-table thead th {
+	padding: 20px 15px;
+	text-align: center;
+	font-weight: 500;
+	font-size: 2rem;
+	color: black;
+	text-transform: uppercase;
+  }
+  .dynamic-table tbody td{
+	padding: 20px 15px;
+	text-align: center;
+	vertical-align:middle;
+	font-weight: 300;
+	font-size: 2rem;
+	color:black;
+	border-bottom: solid 1px gray;
+  }

@@ -1,9 +1,9 @@
 import React, { useLayoutEffect, useState, useReducer } from 'react';
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import SandwichOrdersHelper from '../services/SandwichOrdersHelper';
-import DynamicTable from '../../components/DynamicTable/DynamicTable';
-import Loader from '../../components/LoadingBar';
-
+import DynamicTable from '../../shared-components/DynamicTable/DynamicTable';
+import Loader from '../../shared-components/LoadingBar';
+import './sandwich-orders.css';
 
 const AllSandwichOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -20,22 +20,15 @@ const AllSandwichOrders = () => {
     let history = useHistory();
     let location = history.location;
     useLayoutEffect(() => {
-        if (location && location.state) {
-            console.log('location.state:', location.state);
+        if (location && location.state) {            
             if (location.state) {
                 setOrders(location.state)
-                console.log("All Order Page Orders are  ", orders)
             }
         }
         setLoading(false);
     }, [location.state]);
 
-    // const checkout = (id) => {
-    //     forceUpdate()
-    //     orders[id].status = 'Checked Out';
-    //     setOrders(orders)
-    // }
-    const checkout = (id) => {
+    const checkout = (id) => {        
         forceUpdate()
         if (editedOrders) {
             editedOrders[id].status = 'Checked Out';
@@ -43,7 +36,7 @@ const AllSandwichOrders = () => {
         else {
             orders[id].status = 'Checked Out';
         }
-        setOrders(orders)
+        activeOrders ? changeOrder('Active'):changeOrder('All');
     }
 
     const changeOrder = (name) => {
@@ -51,7 +44,7 @@ const AllSandwichOrders = () => {
             setActiveOrders(true)
             setAllOrder(false)
             setCompleteOrders(false);
-            setEditedOrders(orders.filter(function (item) {
+            setEditedOrders(orders.filter(item => {
                 return item.status == 'pending'
             }))
             forceUpdate()
@@ -66,7 +59,7 @@ const AllSandwichOrders = () => {
             setAllOrder(false)
             setActiveOrders(false)
             setCompleteOrders(true);
-            setEditedOrders(orders.filter(function (item) {
+            setEditedOrders(orders.filter( item => {
                 return item.status !== 'pending'
             }))
 
@@ -78,19 +71,16 @@ const AllSandwichOrders = () => {
     let columns = SandwichOrdersHelper.getAllOrderColumns();
     return (
         <>
-            <div className='Main-Div'>
+            <div className='main-div'>
             <header className="header">All new Sandwich Ordering Portal </header>
-                <p>
-                    {/* Debugging Purpose */}
-                    {/* <span>Orders Length: {editedOrders? editedOrders.length:orders.length}</span> */}
-                </p>
+ 
                 <div className="flex-order-div">
-                    <div className="firstInput">
-                         <input checked={allOrder} onClick={() => changeOrder('All')} type="radio" /> All Orders<br/>
-                         <input checked={activeOrders} onClick={() => changeOrder('Active')} type="radio" /> Active Orders<br/>
+                    <div className="sandwich-radio">
+                         <input checked={allOrder} onClick={() => changeOrder('All')} type="radio" /> All Orders &nbsp;
+                         <input checked={activeOrders} onClick={() => changeOrder('Active')} type="radio" /> Active Orders  &nbsp;
                          <input checked={completeOrders} onClick={() => changeOrder(' ')} type="radio" /> Completed Orders
                   </div>
-                    <div><button className="new-order-link" onClick={() => newOrder()}> New Order {location.state ? location.state.length + 1 : 1}</button></div>
+                  <div><button className="new-order-link" onClick={() => newOrder()}> New Order </button></div>
                 </div>
                 <br></br>
                 <div className="information">

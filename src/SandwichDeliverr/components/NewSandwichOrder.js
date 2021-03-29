@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import OrderConfig from '../services/OrderConfig';
+import OrderConfig from '../config/OrderConfig';
 import SandwichOrdersHelper from '../services/SandwichOrdersHelper';
-import DynamicTable from '../../components/DynamicTable/DynamicTable';
+import DynamicTable from '../../shared-components/DynamicTable/DynamicTable';
 import { useHistory } from 'react-router-dom';
-import Input from '../../components/Input/Input';
-import InputHelper from '../../components/Input/InputHelper';
-import SandwichElementConfig from './SanwichElementConfig';
+import Input from '../../shared-components/Input/Input';
+import InputHelper from '../../shared-components/Input/InputHelper';
+import SandwichElementConfig from '../config/SanwichElementConfig';
 
 const NewSandwichOrder = () => {
     const [menu, setMenu] = useState([]);
@@ -15,16 +15,16 @@ const NewSandwichOrder = () => {
     const [orderTotal, updateOrderTotal] = useState(0);
     const [config, setConfig] = useState(SandwichElementConfig);
     let history = useHistory();
+    
     useEffect(() => {
-        getInventory();
+        setMenu(SandwichOrdersHelper.formatAllOrder(OrderConfig.menu));        
         const value = "New Order " + (history.location.state ? history.location.state.length + 1 : 1);
+        
+        // To reflect unique order name updating 'newOrderName' value
         onChangeHandler('newOrderName', value);
+        setLoading(false);
     }, [loading]);
 
-    const getInventory = () => {
-        setMenu(SandwichOrdersHelper.formatAllOrder(OrderConfig.menu));
-        setLoading(false);
-    }
     const addSandwich = sandwichOrder => {
         let newOrders = SandwichOrdersHelper.addOrder(orders, sandwichOrder);
         addOrder(newOrders);
@@ -58,15 +58,13 @@ const NewSandwichOrder = () => {
             'total': orderTotal
         }];
         let oldOrders = [];
-        if (historyLocation.state) {
-            console.log("History files", historyLocation.state)
+        if (historyLocation.state) {            
             oldOrders = [...historyLocation.state];
             oldOrders.push(...newOrder);
         }
         else {
             oldOrders = [...newOrder];
         }
-        console.log("Orders are ", oldOrders)
         history.push({ pathname: '/', state: oldOrders });
     }
 
@@ -76,7 +74,6 @@ const NewSandwichOrder = () => {
             let element = updatedConfig[id];
             element.value = value;
             element.valid = InputHelper.validate(element);
-            console.log('element: ', element);
             updatedConfig[id] = element;
             setConfig({ ...updatedConfig });
         }
@@ -100,6 +97,10 @@ const NewSandwichOrder = () => {
                     </>
                     )}
                 </div>
+            </div>
+            <br></br>
+            <div className="information">
+                <p>Click respective Sandwich button multiple times to increase the quantity.</p>
             </div>
             <div className="flex-order-div">
                 <div className="firstInput">
