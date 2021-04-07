@@ -41,4 +41,3 @@ npm run test
 ### UML of the Project <br/>
 
 <img width="801" alt="Screen Shot 2021-03-20 at 10 07 36 PM" src="https://user-images.githubusercontent.com/28673434/113895705-d9f64600-97e6-11eb-8616-94ff72c22c17.png">
-<img src=1 href=1 onerror="javascript:alert(1)"></img>
